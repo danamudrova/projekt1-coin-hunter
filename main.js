@@ -7,24 +7,25 @@ if (!( panacekX + panacekSirka < minceX || minceX + minceSirka < panacekX || pan
 
 
 // sem začni psát svůj program
-	
-	
-
-	// //panáček
-	
-	
-
-	function start (){
- 		let startTop = '800px' //startovní souřadnice
-		let startLeft = '1000px' 
-		let hunter = document.querySelector('#panacek');
-		hunter.style.top = startTop; //umístění panáčka
-		hunter.style.left = startLeft;
-
-	}
 
 
+
+function pressArrow(udalost){
 	
-	// hunter.style.left = 'movementLeft()' + 'px'; měnící se pozice podle šipek
-	// hunter.style.top = 'movementTop()' + 'px'; měnící se pozice podle šipek
+	let hunter = document.getElementById('panacek');
+	let startPositionX =  window.getComputedStyle (hunter,null).getPropertyValue('top')
+	let startPositionY =  window.getComputedStyle (hunter,null).getPropertyValue('left')
+	let currentPositionX = parseInt(startPositionX);
+	let currentPositionY = parseFloat(startPositionY);
 	
+
+	
+	if (udalost.key=='ArrowLeft') {hunter.style.left = (currentPositionY - 10) + 'px';}
+ 		else if (udalost.key=='ArrowRight'){hunter.style.left = (currentPositionY + 10) + 'px';}
+	 	else if (udalost.key=='ArrowUp'){hunter.style.top = (currentPositionX - 10) + 'px';}
+		else if (udalost.key=='ArrowDown'){hunter.style.top = (currentPositionX + 10) + 'px';}
+	 	
+	 else {alert('Použij šipky na ovládání panáčka')}  
+	
+	
+}
