@@ -31,6 +31,15 @@ body {
 	*/
 }
 
+#winner {
+	position: absolute;
+    top:  50%;
+    left: 50%;
+	transform: translate(-50%,-50%);
+	font-size: 100px;
+	color: blue;
+}
+
 #score {
 	position: absolute;
 	top: 50px;
@@ -44,10 +53,10 @@ body {
 #panacek,
 #mince {
 	position: absolute;
+	
 }
 
 #panacek {
 	z-index: 1;
-	top: 100px;
-	left: 800px;
+
 }
