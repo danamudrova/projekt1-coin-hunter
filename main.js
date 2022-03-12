@@ -3,65 +3,62 @@
 // mince
 function showCoin(){
 	let coin = document.getElementById('mince');
-	let coinX = Math.floor(Math.random()* window.innerHeight);
-	let coinY = Math.floor(Math.random()* window.innerWidth);
+	let coinH = document.getElementById('mince').clientHeight;
+	let coinW = document.getElementById('mince').clientWidth; 
+
+	let coinX = Math.floor(Math.random()* (window.innerHeight - coinH));
+	let coinY = Math.floor(Math.random()* (window.innerWidth - coinW));
 
 	coin.style.left = coinY +'px';
 	coin.style.top = coinX +'px';	
 }
 
-
-// toto budeš potřebovat později
-/*
-if (!( panacekX + panacekSirka < minceX || minceX + minceSirka < panacekX || panacekY + panacekVyska < minceY || minceY + minceVyska < panacekY)) {
-	// panacek a mince se prekryvaji
-}
-*/
-
-
 // panáček 
 function showHunter(){
 	let hunter = document.getElementById('panacek');
-	let hunterX = Math.floor(Math.random()* window.innerHeight);
-	let hunterY = Math.floor(Math.random()* window.innerWidth);
+	let hunterH = document.getElementById('panacek').clientHeight;
+	let hunterW = document.getElementById('panacek').clientWidth;
+
+	let hunterX = Math.floor(Math.random()* (window.innerHeight - hunterH));
+	let hunterY = Math.floor(Math.random()* (window.innerWidth - hunterW));
 
 	hunter.style.left = hunterY +'px';
 	hunter.style.top = hunterX +'px';
 }
 
+// začátek hry
 function showPlayer() {
-	showHunter()
-	showCoin()
+	showHunter();
+	showCoin();
 }
 
-
+// pohyby panacka
 function pressArrow(udalost){
 	document.getElementById('hudba').play();
 
 	let hunter = document.getElementById('panacek');
-	let hunterX =  window.getComputedStyle (hunter).getPropertyValue('top');
-	let hunterY =  window.getComputedStyle (hunter).getPropertyValue('left');
+	let hunterX =  window.getComputedStyle(hunter).getPropertyValue('top');
+	let hunterY =  window.getComputedStyle(hunter).getPropertyValue('left');
 	let currentHunterX = parseInt(hunterX);
 	let currentHunterY = parseFloat(hunterY);
-	let hunterHeight
-	let hunterWidth
-
+	
 	let coin = document.getElementById('mince');
-	let coinX =  window.getComputedStyle (coin).getPropertyValue('top');
-	let coinY =  window.getComputedStyle (coin).getPropertyValue('left');
+	let coinX =  window.getComputedStyle(coin).getPropertyValue('top');
+	let coinY =  window.getComputedStyle(coin).getPropertyValue('left');
 	let currentCoinX = parseInt(coinX);
 	let currentCoinY = parseFloat(coinY);
-	let coinHeight
-	let coinWidth
 
-    let width = window.innerWidth;
-	let height = window.innerHeight;
-
+	let coinH = document.getElementById('mince').clientHeight;
+	let coinW = document.getElementById('mince').clientWidth;
+	let hunterH = document.getElementById('panacek').clientHeight;
+	let hunterW = document.getElementById('panacek').clientWidth; 
+	
+	//chození uvnitř
 	if (udalost.key=='ArrowLeft'&& hunterY >= '0px') {
 				hunter.style.left = (currentHunterY - 10) + 'px';
-				hunter.src = 'obrazky/panacek-vlevo.png';
-				
-			} else if (udalost.key=='ArrowRight' && currentHunterY < width){
+				hunter.src = 'obrazky/panacek-vlevo.png'; 
+		
+			} else if (udalost.key=='ArrowRight' && currentHunterY <= (window.innerWidth - hunterW)){
 			 	hunter.style.left = (currentHunterY + 10) + 'px';
 				hunter.src = 'obrazky/panacek-vpravo.png';
 				
@@ -69,32 +66,43 @@ function pressArrow(udalost){
 			 	hunter.style.top = (currentHunterX - 10) + 'px';
 				hunter.src = 'obrazky/panacek-nahoru.png';
 				
-			} else if (udalost.key=='ArrowDown'&& currentHunterX < height ){
+			} else if (udalost.key=='ArrowDown'&& currentHunterX <= (window.innerHeight - hunterH)){
 				hunter.style.top = (currentHunterX + 10) + 'px';
 				hunter.src = 'obrazky/panacek.png';
-				
-			} else {
-				alert('Pro ovládání panáčka použij šipky na klávesnici');
-			}  
+			}
+			
+	//pokud narazí na okraj
+	if (udalost.key=='ArrowLeft'&& hunterY < '0px') {
+		hunter.src = 'obrazky/panacek-vpravo.png';
+
+		} else if (udalost.key=='ArrowRight' && currentHunterY > (window.innerWidth - hunterW)){
+			hunter.src = 'obrazky/panacek-vlevo.png';
+
+		} else if (udalost.key=='ArrowUp'&& hunterX < '0px') {
+			hunter.src = 'obrazky/panacek.png';
+
+		} else if (udalost.key=='ArrowDown'&& currentHunterX > (window.innerHeight - hunterH)){
+			hunter.src = 'obrazky/panacek-nahoru.png';
+		}
 	
-	if (!(currentHunterX === currentCoinX || currentHunterY === currentCoinY)){
+    // pokud potká minci		
+	if (!(currentHunterX + hunterW < currentCoinX || currentCoinX + coinW < currentHunterX || currentHunterY + hunterH < currentCoinY || currentCoinY + coinH < currentHunterY)){
 				document.getElementById('zvukmince').play();
 				showCoin();
-				score();
-
-				
+				score();			
 	}
-
-	console.log(currentCoinX,currentCoinY,currentHunterX,currentHunterY)
+	
+	
 }
 
+//počítadlo
 let gainCoin = 1
 function score(){
-	document.getElementById('score').innerText = gainCoin++
+	document.getElementById('score').innerText = gainCoin++;
 	if (gainCoin===6){
 		document.getElementById('zvukfanfara').play();
-		document.getElementById('winner').textContent = "Vyhrál jsi!"
-}
+		document.getElementById('winner').textContent = "Vyhrál jsi!";
+	}
 }
 
 	
