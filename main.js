@@ -16,7 +16,9 @@ function showCoin(){
 // panáček 
 function showHunter(){
 	let hunter = document.getElementById('panacek');
-	let hunterH = document.getElementById('panacek').clientHeight;
+
+	// výška a šířka obrázku je již přímo nalezitelná v obrázku - stačí .height/.width a načte to z obrázku samotného
+	let hunterH = document.getElementById('panacek').clientHeight; 
 	let hunterW = document.getElementById('panacek').clientWidth;
 
 	let hunterX = Math.floor(Math.random()* (window.innerHeight - hunterH));
@@ -53,7 +55,7 @@ function pressArrow(udalost){
 	let hunterH = document.getElementById('panacek').clientHeight;
 	let hunterW = document.getElementById('panacek').clientWidth; 
 	
-	//chození uvnitř
+	//chození uvnitř - pozor, else if neumožňuje například chození diagonálou
 	if (udalost.key=='ArrowLeft'&& hunterY >= '0px') {
 				hunter.style.left = (currentHunterY - 10) + 'px';
 				hunter.src = 'obrazky/panacek-vlevo.png'; 
